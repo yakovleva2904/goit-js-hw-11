@@ -15,6 +15,7 @@ const onSearchFormSubmit = event => {
   loader.classList.remove('is-hidden');
 
   if (!searchedValue) {
+    loader.classList.add('is-hidden');
     iziToast.warning({
       message: 'Please fill in the search field!',
       position: 'topRight',

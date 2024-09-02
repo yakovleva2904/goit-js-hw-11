@@ -14,6 +14,14 @@ const onSearchFormSubmit = event => {
   const searchedValue = searchFormEl.elements.user_query.value.trim();
   loader.classList.remove('is-hidden');
 
+  if (!searchedValue) {
+    iziToast.warning({
+      message: 'Please fill in the search field!',
+      position: 'topRight',
+    });
+    return;
+  }
+
   fetchPhotos(searchedValue)
     .then(data => {
       loader.classList.add('is-hidden');
@@ -23,10 +31,10 @@ const onSearchFormSubmit = event => {
          position: 'topRight',
         });
 
-       galleryEl.innerHTML = '';
-       searchFormEl.reset();
+      galleryEl.innerHTML = '';
+      searchFormEl.reset();
 
-        return;
+      return;
       }
 
   const galleryCardsTemplate = data.hits.map(imgDetails => createGalleryCardTemplate(imgDetails)).join('');

@@ -9,6 +9,13 @@ const galleryEl = document.querySelector('.js-gallery');
 const loader = document.querySelector('.loader');
 loader.classList.add('is-hidden');
 
+const lightBox = new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+  overlayOpacity: 0.8,
+  });
+
 const onSearchFormSubmit = event => {
   event.preventDefault();
   const searchedValue = searchFormEl.elements.user_query.value.trim();
@@ -41,20 +48,17 @@ const onSearchFormSubmit = event => {
   const galleryCardsTemplate = data.hits.map(imgDetails => createGalleryCardTemplate(imgDetails)).join('');
 
   galleryEl.innerHTML = galleryCardsTemplate;
-
-  const lightBox = new SimpleLightbox('.gallery a', {
-    captionsData: 'alt',
-    captionPosition: 'bottom',
-    captionDelay: 250,
-    overlayOpacity: 0.8,
-  });
         
   searchFormEl.reset();
   lightBox.refresh();
     
   })
   .catch(err => {
-      console.log(err);
+    loader.classList.add('is-hidden');
+    iziToast.error({
+      message: `Ooops! Error: ${err}`,
+      position: 'topRight',
+    });
   });
 };
 
